@@ -51,12 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
         let participantsHtml = "";
         if (participants.length > 0) {
           const items = participants
-            .map((p) => {
-              const display = typeof p === "string" ? p : p.name || p.email || "";
-              const initials = getInitials(display || p);
-              return `<li><span class="participant-badge">${escapeHtml(initials)}</span><span class="participant-name">${escapeHtml(display)}</span></li>`;
-            })
-            .join("");
+              .map((p) => {
+                const display = typeof p === "string" ? p : p.name || p.email || "";
+                const initials = getInitials(display || p);
+                // include a delete button with data attributes for activity and email
+                return `<li><span class="participant-badge">${escapeHtml(initials)}</span><span class="participant-name">${escapeHtml(display)}</span><button class="participant-delete" data-activity="${escapeHtml(name)}" data-email="${escapeHtml(display)}" title="Unregister">🗑️</button></li>`;
+              })
+              .join("");
           participantsHtml = `
             <div class="participants">
               <h5>Participants</h5>
@@ -131,6 +132,51 @@ document.addEventListener("DOMContentLoaded", () => {
       messageDiv.className = "error";
       messageDiv.classList.remove("hidden");
       console.error("Error signing up:", error);
+    }
+    // refresh activities only on successful signup and then reload the page
+    if (response && response.ok) {
+      try {
+        // try to refresh the activities list first
+        await fetchActivities();
+      } catch (e) {
+        // ignore fetch errors, we'll still reload
+        console.error('Error refreshing activities after signup:', e);
+      }
+
+      // give a short moment for the success message to be visible, then reload
+      setTimeout(() => {
+        window.location.reload();
+      }, 800);
+    }
+  });
+
+  // Delegate click handler for participant delete buttons
+  activitiesList.addEventListener("click", async (event) => {
+    const btn = event.target.closest && event.target.closest('.participant-delete');
+    if (!btn) return;
+
+    const activity = btn.getAttribute('data-activity');
+    const email = btn.getAttribute('data-email');
+
+    if (!activity || !email) return;
+
+    if (!confirm(`Unregister ${email} from ${activity}?`)) return;
+
+    try {
+      const res = await fetch(`/activities/${encodeURIComponent(activity)}/participants?email=${encodeURIComponent(email)}`, {
+        method: 'DELETE'
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        // refresh list
+        fetchActivities();
+      } else {
+        alert(result.detail || 'Failed to unregister participant');
+      }
+    } catch (err) {
+      console.error('Error unregistering participant:', err);
+      alert('Failed to unregister participant');
     }
   });
 

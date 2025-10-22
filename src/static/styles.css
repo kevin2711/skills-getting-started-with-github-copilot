@@ -187,6 +187,31 @@ footer {
   box-shadow: 0 1px 2px rgba(0,0,0,0.08);
 }
 
+/* Delete button for participants */
+.activity-card .participant-delete {
+  background: transparent;
+  border: none;
+  color: #c62828;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.activity-card .participant-delete:hover {
+  background-color: rgba(198, 40, 40, 0.08);
+}
+.activity-card .participant-delete:active {
+  transform: translateY(1px);
+}
+
+.activity-card .participants li {
+  /* keep space for delete button */
+  padding-right: 6px;
+}
+.activity-card .participant-name {
+  margin-right: 8px;
+}
+
 .activity-card .participant-name {
   flex: 1;
   white-space: nowrap;
