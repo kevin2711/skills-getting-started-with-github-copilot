@@ -142,3 +142,101 @@ footer {
   padding: 20px;
   color: #666;
 }
+
+/* Participants styles for activity cards */
+.activity-card .participants {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #e6e6e6;
+}
+
+.activity-card .participants h5 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #1a237e;
+  font-weight: 700;
+}
+
+.activity-card .participants ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-card .participants li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.activity-card .participant-badge {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3949ab 0%, #1a237e 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+/* Delete button for participants */
+.activity-card .participant-delete {
+  background: transparent;
+  border: none;
+  color: #c62828;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.activity-card .participant-delete:hover {
+  background-color: rgba(198, 40, 40, 0.08);
+}
+.activity-card .participant-delete:active {
+  transform: translateY(1px);
+}
+
+.activity-card .participants li {
+  /* keep space for delete button */
+  padding-right: 6px;
+}
+.activity-card .participant-name {
+  margin-right: 8px;
+}
+
+.activity-card .participant-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activity-card .participants .empty {
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #fafafa;
+  color: #666;
+  font-style: italic;
+  border: 1px solid #f0f0f0;
+}
+
+/* Slightly smaller layout on very narrow screens */
+@media (max-width: 420px) {
+  .activity-card .participant-badge {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    font-size: 11px;
+  }
+  .activity-card .participants h5 {
+    font-size: 13px;
+  }
+}
